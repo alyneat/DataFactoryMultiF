@@ -1,0 +1,9 @@
+{
+	"name": "Multifile1",
+	"location": "eastus2",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "eaf76e4d-0054-449e-87af-abd227cb0c88",
+		"tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+	}
+}
