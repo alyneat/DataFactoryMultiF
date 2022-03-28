@@ -8,9 +8,6 @@
 		"AzureBlobmultifi1_connectionString": {
 			"value": ""
 		},
-		"AzureSqlDatabase1_connectionString": {
-			"value": ""
-		},
 		"AzureSqlDatabaseMF_connectionString": {
 			"value": ""
 		},

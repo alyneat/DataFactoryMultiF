@@ -11,10 +11,6 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureBlobmultifi1'"
 		},
-		"AzureSqlDatabase1_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
-		},
 		"AzureSqlDatabaseMF_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabaseMF'"
@@ -48,9 +44,6 @@
 					},
 					"AzureBlobmultifi1_connectionString": {
 						"value": "[parameters('AzureBlobmultifi1_connectionString')]"
-					},
-					"AzureSqlDatabase1_connectionString": {
-						"value": "[parameters('AzureSqlDatabase1_connectionString')]"
 					},
 					"AzureSqlDatabaseMF_connectionString": {
 						"value": "[parameters('AzureSqlDatabaseMF_connectionString')]"
