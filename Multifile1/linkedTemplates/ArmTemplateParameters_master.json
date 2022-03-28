@@ -11,6 +11,9 @@
 		"AzureSqlDatabase1_connectionString": {
 			"value": ""
 		},
+		"AzureSqlDatabaseMF_connectionString": {
+			"value": ""
+		},
 		"containerUri": {
 			"value": ""
 		},
