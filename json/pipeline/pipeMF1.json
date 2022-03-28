@@ -23,10 +23,7 @@
 					},
 					"dataset": {
 						"referenceName": "sql_movies_dynamics",
-						"type": "DatasetReference",
-						"parameters": {
-							"TableName": "_notSet"
-						}
+						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
 				}
@@ -78,7 +75,10 @@
 								},
 								"sink": {
 									"type": "AzureSqlSink",
-									"preCopyScript": "TRUNCATE TABLE dbo.@{item().SQLTable}\n",
+									"preCopyScript": {
+										"value": "TRUNCATE TABLE dbo.@{item().sql_movies_dynamics}\n",
+										"type": "Expression"
+									},
 									"writeBehavior": "insert",
 									"sqlWriterUseTableLock": false,
 									"disableMetricsCollection": false
