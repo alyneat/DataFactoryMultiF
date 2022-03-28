@@ -2,7 +2,7 @@
 	"name": "sql_movies_dynamics",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AzureSqlDatabase1",
+			"referenceName": "AzureSqlDatabaseMF",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
