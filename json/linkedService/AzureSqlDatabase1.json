@@ -6,7 +6,7 @@
 		"type": "AzureSqlDatabase",
 		"typeProperties": {
 			"connectionString": "integrated security=False;encrypt=True;connection timeout=30;data source=serdbmf1.database.windows.net;initial catalog=multiplefil1;user id=admin",
-			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDQ1MjFCREI2LTNGRkQtNDhGMi1BQkU4LUY1MkIzOEEyMTZENl9iZWNiOWUwNi1iMDU0LTQwN2YtODgwMi1mOWRlNzhhZmE2MmUiDQp9"
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDQ1MjFCREI2LTNGRkQtNDhGMi1BQkU4LUY1MkIzOEEyMTZENl9mYzFjZGE0Zi05ZTU2LTQ4ZmItOTg2Yi03YmIzN2MzYTY4NGIiDQp9"
 		}
 	}
 }
