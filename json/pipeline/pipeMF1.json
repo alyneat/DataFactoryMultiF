@@ -68,6 +68,7 @@
 									"storeSettings": {
 										"type": "AzureBlobStorageReadSettings",
 										"recursive": true,
+										"wildcardFolderPath": "*",
 										"wildcardFileName": "*.csv",
 										"enablePartitionDiscovery": false
 									},
@@ -77,7 +78,7 @@
 								},
 								"sink": {
 									"type": "AzureSqlSink",
-									"preCopyScript": "TRUNCATE TABLE dbo.@{item().sql_movies_dynamics}\n",
+									"preCopyScript": "TRUNCATE TABLE dbo.@{item().SQLTable}\n",
 									"writeBehavior": "insert",
 									"sqlWriterUseTableLock": false,
 									"disableMetricsCollection": false
@@ -97,18 +98,15 @@
 									"referenceName": "cvs_movies_dynamic",
 									"type": "DatasetReference",
 									"parameters": {
-										"FolderName": "@{item().ObjectValue}",
-										"DelimeterSymbol": "@{item().ObjectValue}"
+										"FolderName": "@{item().FolderName}",
+										"DelimeterSymbol": "@{item().Delimeter}"
 									}
 								}
 							],
 							"outputs": [
 								{
 									"referenceName": "sql_movies_dynamics",
-									"type": "DatasetReference",
-									"parameters": {
-										"TableName": "sql_movies_dynamics"
-									}
+									"type": "DatasetReference"
 								}
 							]
 						}
