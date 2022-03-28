@@ -68,8 +68,7 @@
 									"storeSettings": {
 										"type": "AzureBlobStorageReadSettings",
 										"recursive": true,
-										"wildcardFolderPath": "*",
-										"wildcardFileName": ".csv",
+										"wildcardFileName": "*.csv",
 										"enablePartitionDiscovery": false
 									},
 									"formatSettings": {
@@ -98,8 +97,8 @@
 									"referenceName": "cvs_movies_dynamic",
 									"type": "DatasetReference",
 									"parameters": {
-										"FolderName": "@{item().ObjectValue}",
-										"DelimeterSymbol": "@{item().ObjectValue}"
+										"FolderName": "@{item().FolderName}",
+										"DelimeterSymbol": "@{item().Delimeter}"
 									}
 								}
 							],
