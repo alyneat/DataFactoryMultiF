@@ -30,6 +30,26 @@
 					},
 					"firstRowOnly": false
 				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "RetrieveMetadata",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('RetrieveMetadata').output.value",
+						"type": "Expression"
+					},
+					"isSequential": false
+				}
 			}
 		],
 		"annotations": []
