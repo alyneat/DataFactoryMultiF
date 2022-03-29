@@ -21,6 +21,140 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/MFpipe')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Retrieve Metadata",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT\n     b.[ObjectName]\n    ,FolderName = b.[ObjectValue]\n    ,SQLTable   = s.[ObjectValue]\n    ,Delimiter  = d.[ObjectValue]\nFROM [dbo].[Metadata_ADF] b\nJOIN [dbo].[Metadata_ADF] s ON b.[ObjectName] = s.[ObjectName]\nJOIN [dbo].[Metadata_ADF] d ON b.[ObjectName] = d.[ObjectName]\nWHERE   b.[SourceType] = 'BlobContainer'\n    AND s.[SourceType] = 'SQLTable'\n    AND d.[SourceType] = 'Delimiter';",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "sql_movies_dynamics",
+								"type": "DatasetReference",
+								"parameters": {
+									"TableName": "_notSet"
+								}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "ForEach1",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Retrieve Metadata",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Retrieve Metadata').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Copy Blob to Sql",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "DelimitedTextSource",
+											"storeSettings": {
+												"type": "AzureBlobStorageReadSettings",
+												"recursive": true,
+												"wildcardFolderPath": "*",
+												"wildcardFileName": "*.csv",
+												"enablePartitionDiscovery": false
+											},
+											"formatSettings": {
+												"type": "DelimitedTextReadSettings"
+											}
+										},
+										"sink": {
+											"type": "AzureSqlSink",
+											"preCopyScript": {
+												"value": "TRUNCATE TABLE dbo.@{item().SQLTable}\n\n",
+												"type": "Expression"
+											},
+											"writeBehavior": "insert",
+											"sqlWriterUseTableLock": false,
+											"disableMetricsCollection": false
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "cvs_movies_dynamic",
+											"type": "DatasetReference",
+											"parameters": {
+												"FolderName": "@{item().FolderName}",
+												"DelimiterSymbol": "@{item().Delimiter}"
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "sql_movies_dynamics",
+											"type": "DatasetReference",
+											"parameters": {
+												"TableName": "@{item().SQLTable}"
+											}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/sql_movies_dynamics')]",
+				"[concat(variables('factoryId'), '/datasets/cvs_movies_dynamic')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/cvs_movies_dynamic')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -33,7 +167,7 @@
 					"FolderName": {
 						"type": "string"
 					},
-					"DelimeterSymbol": {
+					"DelimiterSymbol": {
 						"type": "string"
 					}
 				},
@@ -49,10 +183,11 @@
 						"container": "multifile1"
 					},
 					"columnDelimiter": {
-						"value": "@dataset().DelimeterSymbol",
+						"value": "@dataset().DelimiterSymbol",
 						"type": "Expression"
 					},
 					"escapeChar": "\\",
+					"firstRowAsHeader": false,
 					"quoteChar": "\""
 				},
 				"schema": []
@@ -80,7 +215,10 @@
 				"schema": [],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "@dataset().TableName"
+					"table": {
+						"value": "@dataset().TableName",
+						"type": "Expression"
+					}
 				}
 			},
 			"dependsOn": [
@@ -138,52 +276,6 @@
 				}
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MFpipe')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "GetMetadata",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "SELECT\n     b.[ObjectName]\n    ,FolderName = b.[ObjectValue]\n    ,SQLTable   = s.[ObjectValue]\n    ,Delimiter  = d.[ObjectValue]\nFROM [dbo].[Metadata_ADF] b\nJOIN [dbo].[Metadata_ADF] s ON b.[ObjectName] = s.[ObjectName]\nJOIN [dbo].[Metadata_ADF] d ON b.[ObjectName] = d.[ObjectName]\nWHERE   b.[SourceType] = 'BlobContainer'\n    AND s.[SourceType] = 'SQLTable'\n    AND d.[SourceType] = 'Delimiter';",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"dataset": {
-								"referenceName": "sql_movies_dynamics",
-								"type": "DatasetReference",
-								"parameters": {
-									"TableName": "_notSet"
-								}
-							},
-							"firstRowOnly": false
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/sql_movies_dynamics')]"
-			]
 		}
 	]
 }
