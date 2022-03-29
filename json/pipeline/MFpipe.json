@@ -98,7 +98,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"FolderName": "@{item().FolderName}",
-										"DelimeterSymbol": "@{item().Delimiter}"
+										"DelimiterSymbol": "@{item().Delimiter}"
 									}
 								}
 							],
