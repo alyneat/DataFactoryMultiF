@@ -9,7 +9,7 @@
 			"FolderName": {
 				"type": "string"
 			},
-			"DelimeterSymbol": {
+			"DelimiterSymbol": {
 				"type": "string"
 			}
 		},
@@ -25,10 +25,11 @@
 				"container": "multifile1"
 			},
 			"columnDelimiter": {
-				"value": "@dataset().DelimeterSymbol",
+				"value": "@dataset().DelimiterSymbol",
 				"type": "Expression"
 			},
 			"escapeChar": "\\",
+			"firstRowAsHeader": false,
 			"quoteChar": "\""
 		},
 		"schema": []
