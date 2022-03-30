@@ -47,74 +47,7 @@
 					"items": {
 						"value": "@activity('Retrieve Metadata').output.value",
 						"type": "Expression"
-					},
-					"activities": [
-						{
-							"name": "Copy Blob to Sql",
-							"type": "Copy",
-							"dependsOn": [],
-							"policy": {
-								"timeout": "7.00:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"source": {
-									"type": "DelimitedTextSource",
-									"storeSettings": {
-										"type": "AzureBlobStorageReadSettings",
-										"recursive": true,
-										"wildcardFileName": "*.csv",
-										"enablePartitionDiscovery": false
-									},
-									"formatSettings": {
-										"type": "DelimitedTextReadSettings"
-									}
-								},
-								"sink": {
-									"type": "AzureSqlSink",
-									"preCopyScript": {
-										"value": "TRUNCATE TABLE dbo.@{item().SQLTable}\n\n",
-										"type": "Expression"
-									},
-									"writeBehavior": "insert",
-									"sqlWriterUseTableLock": false,
-									"disableMetricsCollection": false
-								},
-								"enableStaging": false,
-								"translator": {
-									"type": "TabularTranslator",
-									"typeConversion": true,
-									"typeConversionSettings": {
-										"allowDataTruncation": true,
-										"treatBooleanAsNumber": false
-									}
-								}
-							},
-							"inputs": [
-								{
-									"referenceName": "cvs_movies_dynamic",
-									"type": "DatasetReference",
-									"parameters": {
-										"FolderName": "@{item().FolderName}",
-										"DelimiterSymbol": "@{item().Delimiter}"
-									}
-								}
-							],
-							"outputs": [
-								{
-									"referenceName": "sql_movies_dynamics",
-									"type": "DatasetReference",
-									"parameters": {
-										"TableName": "@{item().SQLTable}"
-									}
-								}
-							]
-						}
-					]
+					}
 				}
 			}
 		],
