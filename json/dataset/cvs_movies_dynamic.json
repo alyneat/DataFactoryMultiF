@@ -28,7 +28,7 @@
 				"value": "@dataset().DelimiterSymbol",
 				"type": "Expression"
 			},
-			"escapeChar": "",
+			"escapeChar": "\\",
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
