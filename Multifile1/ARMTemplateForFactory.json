@@ -74,7 +74,7 @@
 							},
 							"activities": [
 								{
-									"name": "Copy Blob to Sql",
+									"name": "Copy data1",
 									"type": "Copy",
 									"dependsOn": [],
 									"policy": {
@@ -102,7 +102,7 @@
 										"sink": {
 											"type": "AzureSqlSink",
 											"preCopyScript": {
-												"value": "TRUNCATE TABLE dbo.@{item().SQLTable}\n\n",
+												"value": "TRUNCATE TABLE dbo.@{item().SQLTable}\n",
 												"type": "Expression"
 											},
 											"writeBehavior": "insert",
@@ -121,7 +121,7 @@
 									},
 									"inputs": [
 										{
-											"referenceName": "cvs_movies_dynamic",
+											"referenceName": "csv_movies_dynamic",
 											"type": "DatasetReference",
 											"parameters": {
 												"FolderName": "@{item().FolderName}",
@@ -151,11 +151,11 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/sql_movies_dynamics')]",
-				"[concat(variables('factoryId'), '/datasets/cvs_movies_dynamic')]"
+				"[concat(variables('factoryId'), '/datasets/csv_movies_dynamic')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/cvs_movies_dynamic')]",
+			"name": "[concat(parameters('factoryName'), '/csv_movies_dynamic')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -187,7 +187,7 @@
 						"type": "Expression"
 					},
 					"escapeChar": "\\",
-					"firstRowAsHeader": false,
+					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},
 				"schema": []
@@ -207,7 +207,8 @@
 				},
 				"parameters": {
 					"TableName": {
-						"type": "string"
+						"type": "string",
+						"defaultValue": "*"
 					}
 				},
 				"annotations": [],
