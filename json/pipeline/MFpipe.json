@@ -72,12 +72,16 @@
 										"enablePartitionDiscovery": false
 									},
 									"formatSettings": {
-										"type": "DelimitedTextReadSettings"
+										"type": "DelimitedTextReadSettings",
+										"skipLineCount": 2
 									}
 								},
 								"sink": {
 									"type": "AzureSqlSink",
-									"preCopyScript": "TRUNCATE TABLE dbo.@{item().SQLTable}\n\n",
+									"preCopyScript": {
+										"value": "TRUNCATE TABLE dbo.@{item().SQLTable}\n\n",
+										"type": "Expression"
+									},
 									"writeBehavior": "insert",
 									"sqlWriterUseTableLock": false,
 									"disableMetricsCollection": false
