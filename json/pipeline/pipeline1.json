@@ -80,6 +80,7 @@
 									"preCopyScript": "TRUNCATE TABLE dbo.@{item().SQLTable}",
 									"writeBehavior": "insert",
 									"sqlWriterUseTableLock": false,
+									"tableOption": "autoCreate",
 									"disableMetricsCollection": false
 								},
 								"enableStaging": false,
