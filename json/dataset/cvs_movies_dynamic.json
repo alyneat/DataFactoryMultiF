@@ -28,8 +28,8 @@
 				"value": "@dataset().DelimiterSymbol",
 				"type": "Expression"
 			},
-			"escapeChar": "\\",
-			"firstRowAsHeader": false,
+			"escapeChar": "",
+			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
 		"schema": []
